@@ -383,10 +383,16 @@ function defaultPhoto(n) {
   if (n === 24) return "assets/kids-reading.jpg";
   return "assets/lessons/L" + (((n + 11) % PHOTO_COUNT) + 1) + ".jpg";
 }
+// Photos ship as web-sized .jpg in this repo. Sheet rows for the cover, the
+// dividers, and the 24 lesson photos may still say .png (or the old framed/ path),
+// so those paths are normalised as the sheet is read. Logo, tree mark, branches and
+// mascots are real PNGs (transparency) and are left alone.
+function normPhoto(p) {
+  return p.replace("assets/lessons/framed/", "assets/lessons/").replace(/\.png$/i, ".jpg");
+}
 function fallbackPhoto(url) {
   if (!url) return null;
-  // Photos ship as .jpg in this repo; a sheet entry may still say .png (or framed/).
-  const alt = url.replace("assets/lessons/framed/", "assets/lessons/").replace(/\.png$/i, ".jpg");
+  const alt = normPhoto(url);
   return alt !== url ? alt : null;
 }
 
@@ -437,8 +443,8 @@ function applyImageCsv(csv) {
     const p = (r.image_path || r.path || "").trim();
     if (!k || !p) return;
     const lm = k.match(/^lesson_(\d+)$/);
-    if (lm) { LESSON_PHOTOS[parseInt(lm[1], 10)] = p; n++; }
-    else if (IMAGES[k] !== undefined) { IMAGES[k] = p; n++; }
+    if (lm) { LESSON_PHOTOS[parseInt(lm[1], 10)] = normPhoto(p); n++; }
+    else if (IMAGES[k] !== undefined) { IMAGES[k] = /^(cover_photo|divider_)/.test(k) ? normPhoto(p) : p; n++; }
   });
   return n;
 }
