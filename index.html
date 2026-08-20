@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="ds/tokens/colors.css">
+<link rel="stylesheet" href="ds/tokens/typography.css">
+<link rel="stylesheet" href="ds/tokens/spacing.css">
+<link rel="stylesheet" href="ds/tokens/base.css">
+<link rel="stylesheet" href="ds/styles.css">
+<script src="ds/_ds_bundle.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;height:100%;background:#26401F}
+  a{color:#336B1E}
+  a:hover{color:#34512C}
+  *{box-sizing:border-box}
+  ::-webkit-scrollbar{width:9px;height:9px}
+  ::-webkit-scrollbar-thumb{background:rgba(166,199,95,.45);border-radius:9px}
+</style>
+</helmet>
+<div style="height:100vh; overflow:hidden; background:radial-gradient(120% 90% at 50% 0%, #34512C 0%, #26401F 55%, #1D3117 100%); font-family:'Poppins',system-ui,sans-serif; display:flex; flex-direction:column">
+
+  <div style="flex:none; display:flex; align-items:center; gap:14px; padding:16px 26px; borderBottom:1px solid rgba(203,224,143,.16)">
+    <img src="assets/thrive-academy-logo.png" ref="{{ imgRef.logo }}" alt="Thrive Academy" style="height:42px; object-fit:contain; background:#FAF6EC; border-radius:8px; padding:4px 6px">
+    <div style="display:flex; flex-direction:column">
+      <div style="font-family:'Cinzel',serif; font-size:14px; font-weight:600; letter-spacing:0.14em; color:#F3EDDD">{{ t.header_title }}</div>
+      <div style="font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:#8FAE48">{{ t.header_subtitle }}</div>
+    </div>
+    <div style="flex:1"></div>
+    <button type="button" onClick="{{ toggleContents }}" style="display:inline-flex; align-items:center; gap:9px; background:rgba(243,237,221,.08); color:#F3EDDD; border:1px solid rgba(203,224,143,.3); font-family:inherit; font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:999px; cursor:pointer" style-hover="background:rgba(243,237,221,.16)">
+      <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M1.5 3h11M1.5 7h11M1.5 11h7" stroke="#CBE08F" stroke-width="1.5" stroke-linecap="round"></path></svg>
+      Contents
+    </button>
+  </div>
+
+  <div ref="{{ stageRef }}" style="flex:1; display:flex; align-items:center; justify-content:center; gap:18px; padding:22px 22px 8px; min-height:0">
+
+    <button type="button" onClick="{{ goPrev }}" aria-label="Previous page" style="flex:none; width:44px; height:44px; border-radius:999px; background:rgba(243,237,221,.1); border:1px solid rgba(203,224,143,.28); cursor:pointer; display:flex; align-items:center; justify-content:center" style-hover="background:rgba(243,237,221,.2)">
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 1.5 L3 7 L9 12.5" fill="none" stroke="#F3EDDD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+
+    <div style="{{ bookStyle }}">
+      <div style="{{ pageStyle }}">
+
+        <sc-if value="{{ page.isCover }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column">
+            <img src="assets/cover-students.jpg" ref="{{ imgRef.cover_photo }}" alt="Students learning together at Thrive Academy" style="width:100%; height:322px; object-fit:cover; object-position:center 34%">
+            <div style="flex:1; background:#FAF6EC; padding:34px 46px 30px; display:flex; flex-direction:column; gap:16px">
+              <div style="font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#8FAE48">{{ t.cover_eyebrow }}</div>
+              <h1 style="margin:0; font-family:'Cinzel',serif; font-weight:600; font-size:52px; line-height:1.04; letter-spacing:0.01em; color:#26401F">{{ t.cover_title }}</h1>
+              <p style="margin:0; font-size:15px; line-height:1.65; color:#574E3D; max-width:46ch; text-wrap:pretty">{{ t.cover_intro }}</p>
+              <div style="flex:1"></div>
+              <div style="display:flex; align-items:center; gap:14px">
+                <button type="button" onClick="{{ goNext }}" style="display:inline-flex; align-items:center; gap:10px; background:#34512C; color:#F3EDDD; border:none; font-family:inherit; font-size:14px; font-weight:600; padding:13px 24px; border-radius:999px; cursor:pointer; white-space:nowrap; flex:none" style-hover="background:#26401F">{{ t.cover_button }} <span>&#8594;</span></button>
+                <button type="button" onClick="{{ openProvidedNovel }}" style="background:none; border:none; padding:0; font-family:inherit; font-size:13px; font-weight:600; color:#336B1E; text-decoration:underline; text-underline-offset:3px; cursor:pointer">{{ t.cover_provided_link }}</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ page.isHowTo }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute; inset:0; background:#FAF6EC; padding:38px 44px 30px; display:flex; flex-direction:column; gap:18px">
+            <div style="display:flex; align-items:center; gap:14px; background:#34512C; border-radius:10px; padding:9px 18px 9px 14px">
+              <span style="flex:none; display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:999px; background:#FAF6EC">
+                <img src="assets/thrive-tree-mark.png" ref="{{ imgRef.tree_mark }}" alt="" style="height:22px; object-fit:contain">
+              </span>
+              <div style="font-size:15px; font-weight:600; color:#F3EDDD">{{ t.page_badge }}</div>
+              <div style="flex:1"></div>
+              <div style="font-size:10.5px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#CBE08F">{{ t.page_grade }}</div>
+            </div>
+            <h1 style="margin:0; font-family:'Cinzel',serif; font-weight:600; font-size:30px; letter-spacing:0.02em; color:#26401F">{{ t.howto_title }}</h1>
+            <div style="display:flex; flex-direction:column; gap:15px">
+              <sc-for list="{{ howToSteps }}" as="step" hint-placeholder-count="4">
+                <div style="display:flex; gap:15px; align-items:flex-start">
+                  <div style="flex:none; width:30px; height:30px; border-radius:999px; background:#A6C75F; color:#26401F; font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center">{{ step.n }}</div>
+                  <div style="flex:1; display:flex; flex-direction:column; gap:4px">
+                    <div style="font-size:16px; font-weight:600; color:#26401F">{{ step.title }}</div>
+                    <div style="font-size:13px; line-height:1.6; color:#574E3D">{{ step.body }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="background:#EFF4E9; border-radius:12px; padding:16px 18px">
+              <p style="margin:0; font-size:13px; line-height:1.65; color:#34302A"><strong style="font-weight:600">Good to know:</strong> {{ t.howto_note }}</p>
+            </div>
+            <div style="flex:1"></div>
+            <div style="border-top:1px solid #E7DDC6; padding-top:12px; font-size:11px; color:#7C715A">{{ t.footer_course }}</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ page.isDivider }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute; inset:0; background:#34512C; display:flex; flex-direction:column">
+            <img ref="{{ photoRef }}" alt="Students reading" style="width:100%; height:392px; object-fit:cover">
+            <div style="flex:1; position:relative; padding:38px 46px; display:flex; flex-direction:column; justify-content:center; gap:14px">
+              <div style="font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#8FAE48">{{ page.eyebrow }}</div>
+              <h1 style="margin:0; font-family:'Cinzel',serif; font-weight:600; font-size:54px; line-height:1.05; letter-spacing:0.02em; color:#F3EDDD">{{ page.title }}</h1>
+              <p style="margin:0; font-size:15px; line-height:1.65; color:#CBE08F; max-width:26ch; text-wrap:pretty">{{ page.body }}</p>
+              <img ref="{{ mascotRef }}" alt="Thrive Academy mascot" style="position:absolute; right:26px; bottom:0; height:252px; object-fit:contain; object-position:bottom; pointer-events:none">
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ page.isLesson }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute; inset:0; background:#FAF6EC; padding:20px 36px 16px; display:flex; flex-direction:column; gap:10px">
+            <img src="assets/branch-h.png" ref="{{ imgRef.branch_top }}" alt="" style="position:absolute; right:22px; top:82px; width:190px; opacity:.9; pointer-events:none">
+            <img src="assets/branch-v.png" ref="{{ imgRef.branch_bottom }}" alt="" style="position:absolute; right:6px; bottom:74px; width:74px; opacity:.85; pointer-events:none">
+            <div style="display:flex; align-items:center; gap:14px; background:#34512C; border-radius:10px; padding:9px 18px 9px 14px">
+              <span style="flex:none; display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:999px; background:#FAF6EC">
+                <img src="assets/thrive-tree-mark.png" ref="{{ imgRef.tree_mark }}" alt="" style="height:22px; object-fit:contain">
+              </span>
+              <div style="font-size:15px; font-weight:600; color:#F3EDDD">{{ t.page_badge }}</div>
+              <div style="flex:1"></div>
+              <div style="font-size:10.5px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#CBE08F">{{ t.page_grade }}</div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:14px">
+              <div style="flex:none; background:#2F4A26; color:#FFFFFF; font-size:16px; font-weight:500; padding:10px 22px; border-radius:999px; white-space:nowrap">{{ page.label }}</div>
+              <h1 style="margin:0; font-family:'Cinzel',serif; font-weight:600; font-size:24px; line-height:1.15; letter-spacing:0.01em; color:#3A4A32">{{ page.title }}</h1>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:7px">
+              <div style="display:flex; align-items:center; gap:11px">
+                <div style="flex:none; width:28px; height:28px; border-radius:8px; background:#E7DDC6; display:flex; align-items:center; justify-content:center">
+                  <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 2.2 L11.5 7 L3 11.8 Z" fill="none" stroke="#574E3D" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+                </div>
+                <h2 style="margin:0; font-size:18px; font-weight:500; color:#3A4A32">{{ t.step1_heading }}</h2>
+              </div>
+              <div style="background:#FFFFFF; border-radius:14px; box-shadow:0 1px 3px rgba(52,81,44,.08); padding:13px 18px; display:flex; gap:16px; align-items:center">
+                <div style="flex:none; width:56px; height:56px; border-radius:999px; background:#EFF4E9; display:flex; align-items:center; justify-content:center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3" fill="none" stroke="#5C7A4A" stroke-width="1.4"></rect><path d="M10 9 L15.5 12 L10 15 Z" fill="none" stroke="#5C7A4A" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+                </div>
+                <div style="flex:1; display:flex; flex-direction:column; gap:14px; align-items:flex-start">
+                  <button type="button" onClick="{{ openSlides }}" style="text-align:left; background:none; border:none; padding:0; font-family:inherit; font-size:15px; font-weight:500; line-height:1.5; color:#34302A; cursor:pointer" style-hover="color:#336B1E">{{ page.learn }}</button>
+                  <sc-if value="{{ page.hasVideo }}" hint-placeholder-val="{{ true }}">
+                    <button type="button" onClick="{{ openVideo }}" style="display:inline-flex; align-items:center; gap:9px; background:#2F4A26; color:#FFFFFF; border:none; font-family:inherit; font-size:14px; font-weight:500; padding:11px 22px; border-radius:999px; cursor:pointer; white-space:nowrap" style-hover="background:#26401F">
+                      <svg width="11" height="11" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 1 L9 5 L2 9 Z" fill="#FFFFFF"></path></svg>
+                      Go to Lesson
+                    </button>
+                  </sc-if>
+                  <sc-if value="{{ page.noVideo }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:inline-flex; align-items:center; gap:9px; background:#EFF4E9; color:#5C7A4A; border:1px dashed #A6C75F; font-size:13px; font-weight:600; padding:10px 20px; border-radius:999px">{{ t.video_coming_soon }}</div>
+                  </sc-if>
+                </div>
+                <button type="button" onClick="{{ openVideo }}" aria-label="Play the mini-lesson" style="flex:none; padding:0; border:none; background:#EFF4E9; cursor:pointer; border-radius:10px; overflow:hidden; width:236px; height:177px">
+                  <img ref="{{ photoRef }}" alt="" style="width:100%; height:100%; object-fit:cover; display:block">
+                </button>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:7px">
+              <div style="display:flex; align-items:center; gap:11px">
+                <div style="flex:none; width:28px; height:28px; border-radius:8px; background:#D8E6C9; display:flex; align-items:center; justify-content:center">
+                  <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.2h4.4c.9 0 1.6.6 1.6 1.4v8.2c0-.8-.7-1.4-1.6-1.4H2zM14 3.2H9.6c-.9 0-1.6.6-1.6 1.4v8.2c0-.8.7-1.4 1.6-1.4H14z" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linejoin="round"></path></svg>
+                </div>
+                <h2 style="margin:0; font-size:18px; font-weight:500; color:#3A4A32">{{ t.step2_heading }}</h2>
+              </div>
+              <div style="background:#FCFAF4; border-radius:14px; box-shadow:0 1px 3px rgba(52,81,44,.08); padding:14px 18px; display:flex; flex-direction:column; gap:7px">
+                <div style="display:flex; gap:11px; align-items:flex-start">
+                  <img src="assets/thrive-tree-mark.png" ref="{{ imgRef.tree_mark }}" alt="" style="flex:none; height:16px; object-fit:contain; margin-top:3px">
+                  <p style="flex:1; margin:0; font-size:13.5px; line-height:1.55; color:#34302A; text-wrap:pretty">{{ page.summary }}</p>
+                </div>
+                <sc-if value="{{ page.hasZpdLink }}" hint-placeholder-val="{{ false }}">
+                  <button type="button" onClick="{{ openBookFinder }}" style="align-self:flex-start; background:none; border:none; padding:0; font-family:inherit; font-size:12.5px; font-weight:600; color:#336B1E; text-decoration:underline; text-underline-offset:2px; cursor:pointer">{{ t.zpd_link }}</button>
+                </sc-if>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:7px">
+              <div style="display:flex; align-items:center; gap:11px">
+                <div style="flex:none; width:28px; height:28px; border-radius:8px; background:#E7DDC6; display:flex; align-items:center; justify-content:center">
+                  <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M11 2.4l2.6 2.6-8 8H3v-2.6z" fill="none" stroke="#574E3D" stroke-width="1.3" stroke-linejoin="round"></path></svg>
+                </div>
+                <h2 style="margin:0; font-size:18px; font-weight:500; color:#3A4A32">{{ t.step3_heading }}</h2>
+              </div>
+              <div style="background:#FFFFFF; border-radius:14px; box-shadow:0 1px 3px rgba(52,81,44,.08); padding:13px 18px; display:flex; gap:16px; align-items:center">
+                <div style="flex:none; width:56px; height:56px; border-radius:999px; background:#EFF4E9; display:flex; align-items:center; justify-content:center">
+                  <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="4" y="5.5" width="18" height="12.5" rx="2" fill="none" stroke="#5C7A4A" stroke-width="1.4"></rect><path d="M2 20.5h22" stroke="#5C7A4A" stroke-width="1.4" stroke-linecap="round"></path></svg>
+                </div>
+                <p style="flex:1; margin:0; font-size:14px; line-height:1.55; color:#34302A; text-align:center">{{ t.step3_body }} <strong style="font-weight:600">{{ page.assignLabel }}</strong>.</p>
+                <button type="button" onClick="{{ openAssignment }}" style="flex:none; display:inline-flex; align-items:center; gap:10px; background:#2F4A26; color:#FFFFFF; border:none; font-family:inherit; font-size:15px; font-weight:500; padding:12px 24px; border-radius:999px; cursor:pointer; white-space:nowrap" style-hover="background:#26401F">{{ t.step3_button }} <span style="font-size:13px">&#8599;</span></button>
+              </div>
+            </div>
+
+            <div style="flex:1"></div>
+            <div style="border-top:1px solid #E7DDC6; padding-top:9px; display:flex; align-items:center; gap:12px">
+              <img src="assets/thrive-tree-mark.png" ref="{{ imgRef.tree_mark }}" alt="" style="height:22px; object-fit:contain; opacity:.8">
+              <div style="display:flex; flex-direction:column; gap:2px">
+                <div style="font-size:10.5px; color:#574E3D"><strong style="font-weight:600">Standards:</strong> {{ page.standards }} &nbsp;&#124;&nbsp; <strong style="font-weight:600">Respond by:</strong> {{ t.respond_by }}</div>
+                <div style="font-size:10.5px; color:#7C715A">{{ t.footer_course }}</div>
+              </div>
+              <div style="flex:1"></div>
+              <div style="font-size:10.5px; font-weight:600; color:#7C715A">{{ pageNumber }}</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ page.isFinish }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute; inset:0; background:#FAF6EC; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:54px 62px 216px; text-align:center">
+            <img src="assets/thrive-academy-logo.png" ref="{{ imgRef.logo }}" alt="Thrive Academy" style="height:118px; object-fit:contain">
+            <div style="font-size:22px; color:#8FAE48">&#10087;</div>
+            <h1 style="margin:0; font-family:'Cinzel',serif; font-weight:600; font-size:52px; line-height:1.06; letter-spacing:0.02em; color:#26401F">{{ t.finish_title }}</h1>
+            <p style="margin:0; font-size:16px; line-height:1.7; color:#574E3D; max-width:38ch; text-wrap:pretty">{{ t.finish_body }}</p>
+            <img src="assets/mascot/highfive.png" ref="{{ imgRef.mascot_finish }}" alt="Thrive Academy mascot" style="position:absolute; left:50%; transform:translateX(-50%); bottom:0; height:196px; object-fit:contain; object-position:bottom; pointer-events:none">
+            <button type="button" onClick="{{ openBookFinder }}" style="margin-top:6px; display:inline-flex; align-items:center; gap:9px; background:#34512C; color:#F3EDDD; border:none; font-family:inherit; font-size:14px; font-weight:600; padding:13px 24px; border-radius:999px; cursor:pointer" style-hover="background:#26401F">{{ t.finish_button }} <span>&#8594;</span></button>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+
+    <button type="button" onClick="{{ goNext }}" aria-label="Next page" style="flex:none; width:44px; height:44px; border-radius:999px; background:rgba(243,237,221,.1); border:1px solid rgba(203,224,143,.28); cursor:pointer; display:flex; align-items:center; justify-content:center" style-hover="background:rgba(243,237,221,.2)">
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 1.5 L11 7 L5 12.5" fill="none" stroke="#F3EDDD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+  </div>
+
+  <div style="flex:none; display:flex; flex-direction:column; align-items:center; gap:9px; padding:6px 26px 22px">
+    <div style="display:flex; align-items:center; gap:5px">
+      <sc-for list="{{ ticks }}" as="tick" hint-placeholder-count="31">
+        <button type="button" onClick="{{ tick.go }}" aria-label="{{ tick.aria }}" title="{{ tick.aria }}" style="border:none; padding:0; cursor:pointer; border-radius:2px; width:9px; height:16px; background:{{ tick.color }}"></button>
+      </sc-for>
+    </div>
+    <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#8FAE48">{{ counter }}</div>
+  </div>
+
+  <sc-if value="{{ contentsOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; background:rgba(21,35,16,.62); backdrop-filter:blur(3px); z-index:60; display:flex; justify-content:flex-start" onClick="{{ closeContents }}">
+      <div onClick="{{ stop }}" style="width:392px; max-width:88vw; height:100%; background:#FAF6EC; padding:24px 22px; overflow:auto; display:flex; flex-direction:column; gap:14px; box-shadow:14px 0 40px rgba(0,0,0,.35)">
+        <div style="display:flex; align-items:center; gap:11px">
+          <img src="assets/thrive-tree-mark.png" ref="{{ imgRef.tree_mark }}" alt="" style="height:26px; object-fit:contain">
+          <div style="font-family:'Cinzel',serif; font-size:14px; font-weight:600; letter-spacing:0.1em; color:#34512C">CONTENTS</div>
+          <div style="flex:1"></div>
+          <button type="button" onClick="{{ closeContents }}" aria-label="Close contents" style="width:30px; height:30px; border-radius:999px; border:1px solid #E7DDC6; background:#FFFFFF; cursor:pointer; font-size:15px; color:#574E3D; line-height:1">&#215;</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:3px">
+          <sc-for list="{{ toc }}" as="row" hint-placeholder-count="31">
+            <button type="button" onClick="{{ row.go }}" style="text-align:left; display:flex; align-items:center; gap:12px; background:{{ row.bg }}; border:none; border-radius:9px; padding:10px 12px; cursor:pointer; font-family:inherit" style-hover="background:#EFF4E9">
+              <span style="flex:none; width:34px; font-size:10px; font-weight:700; letter-spacing:0.06em; color:#8FAE48">{{ row.num }}</span>
+              <span style="flex:1; font-size:13px; font-weight:{{ row.weight }}; color:{{ row.color }}; line-height:1.35">{{ row.title }}</span>
+              <span style="flex:none; font-size:10px; color:#7C715A">{{ row.meta }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ modal.open }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; background:rgba(21,35,16,.68); backdrop-filter:blur(4px); z-index:80; display:flex; align-items:center; justify-content:center; padding:34px" onClick="{{ closeModal }}">
+      <div onClick="{{ stop }}" style="width:100%; max-width:820px; max-height:100%; background:#FAF6EC; border-radius:16px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 30px 70px rgba(0,0,0,.45)">
+        <div style="flex:none; background:#34512C; padding:16px 22px; display:flex; align-items:center; gap:13px">
+          <span style="flex:none; display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:999px; background:#FAF6EC">
+            <img src="assets/thrive-tree-mark.png" ref="{{ imgRef.tree_mark }}" alt="" style="height:21px; object-fit:contain">
+          </span>
+          <div style="display:flex; flex-direction:column; gap:2px; min-width:0">
+            <div style="font-size:9.5px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:#8FAE48">{{ modal.eyebrow }}</div>
+            <div style="font-size:16px; font-weight:600; color:#F3EDDD; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">{{ modal.title }}</div>
+          </div>
+          <div style="flex:1"></div>
+          <button type="button" onClick="{{ closeModal }}" aria-label="Close" style="flex:none; width:32px; height:32px; border-radius:999px; border:1px solid rgba(203,224,143,.4); background:rgba(243,237,221,.1); color:#F3EDDD; font-size:16px; line-height:1; cursor:pointer" style-hover="background:rgba(243,237,221,.24)">&#215;</button>
+        </div>
+
+        <div style="flex:1; min-height:0; overflow:auto; padding:22px; display:flex; flex-direction:column; gap:16px">
+          <sc-if value="{{ modal.isVideo }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#26401F; border-radius:12px; aspect-ratio:16/9; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px">
+              <div style="width:72px; height:72px; border-radius:999px; background:rgba(203,224,143,.16); border:1px solid rgba(203,224,143,.4); display:flex; align-items:center; justify-content:center">
+                <svg width="26" height="26" viewBox="0 0 22 22" aria-hidden="true"><path d="M7 3.5 L18 11 L7 18.5 Z" fill="#CBE08F"></path></svg>
+              </div>
+              <div style="font-size:13px; color:#CBE08F; text-align:center; padding:0 30px">{{ t.video_missing_note }}</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ modal.isPoster }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ playVideo }}" aria-label="Play the mini-lesson" style="position:relative; padding:0; border:none; background:#26401F; border-radius:12px; overflow:hidden; aspect-ratio:16/9; cursor:pointer; display:block; width:100%">
+              <img ref="{{ posterRef }}" alt="" style="width:100%; height:100%; object-fit:cover; display:block; opacity:.82">
+              <span style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center">
+                <span style="width:78px; height:78px; border-radius:999px; background:rgba(38,64,31,.82); border:1px solid rgba(203,224,143,.5); display:flex; align-items:center; justify-content:center">
+                  <svg width="28" height="28" viewBox="0 0 22 22" aria-hidden="true"><path d="M7 3.5 L18 11 L7 18.5 Z" fill="#CBE08F"></path></svg>
+                </span>
+              </span>
+            </button>
+          </sc-if>
+
+          <sc-if value="{{ modal.isEmbed }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px solid #E7DDC6; border-radius:12px; overflow:hidden; background:#26401F; aspect-ratio:{{ modal.embedAspect }}">
+              <iframe src="{{ modal.embedUrl }}" title="{{ modal.title }}" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="{{ true }}" style="width:100%; height:100%; border:none; display:block"></iframe>
+            </div>
+          </sc-if>
+
+          <sc-for list="{{ modal.body }}" as="para" hint-placeholder-count="2">
+            <p style="margin:0; font-size:13.5px; line-height:1.7; color:#34302A; text-wrap:pretty">{{ para.text }}</p>
+          </sc-for>
+
+          <sc-if value="{{ modal.reminderLabel }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#EFF4E9; border-radius:14px; padding:18px 22px; display:flex; flex-direction:column; gap:5px; text-align:center">
+              <div style="font-size:10.5px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:#7C715A">{{ t.popup_reminder_label }}</div>
+              <div style="font-family:'Cinzel',serif; font-size:26px; font-weight:600; letter-spacing:0.01em; color:#2F4A26">{{ modal.reminderLabel }}</div>
+              <div style="font-size:14px; color:#5C7A4A">{{ modal.reminderTitle }}</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ modal.teacherPrompt }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; flex-direction:column; gap:11px">
+              <label style="font-size:10.5px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:#7C715A">{{ modal.teacherPrompt }}</label>
+              <div style="position:relative; display:flex">
+                <select value="{{ modal.teacherValue }}" onChange="{{ onTeacherChange }}" style="appearance:none; width:100%; font-family:inherit; font-size:16px; font-weight:500; color:#2F4A26; background:#FFFFFF; border:1px solid #D8E6C9; border-radius:14px; padding:15px 52px 15px 18px; cursor:pointer">
+                  <option value="" label="Choose your teacher&#8230;">Choose your teacher&#8230;</option>
+                  <sc-for list="{{ modal.teacherOptions }}" as="o" hint-placeholder-count="3">
+                    <option value="{{ o.value }}" label="{{ o.name }}">{{ o.name }}</option>
+                  </sc-for>
+                </select>
+                <span style="position:absolute; right:16px; top:0; bottom:0; display:flex; align-items:center; pointer-events:none">
+                  <svg width="14" height="9" viewBox="0 0 14 9" aria-hidden="true"><path d="M1 1.5 L7 7.5 L13 1.5" fill="none" stroke="#5C7A4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </span>
+              </div>
+              <sc-if value="{{ modal.courseUrl }}" hint-placeholder-val="{{ false }}">
+                <a href="{{ modal.courseUrl }}" target="_blank" rel="noopener" onClick="{{ modal.onOpen }}" style="display:flex; align-items:center; justify-content:center; gap:10px; height:56px; border-radius:14px; text-decoration:none; font-size:17px; font-weight:600; background:#2F4A26; color:#FFFFFF; box-shadow:0 1px 3px rgba(38,64,31,.14)" style-hover="background:#26401F">{{ modal.openLabel }} <span style="font-size:14px">&#8599;</span></a>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ modal.hasSteps }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF; border:1px solid #E7DDC6; border-radius:12px; padding:16px 18px; display:flex; flex-direction:column; gap:12px">
+              <div style="font-size:10.5px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:#7C715A">{{ modal.stepsLabel }}</div>
+              <sc-for list="{{ modal.steps }}" as="step" hint-placeholder-count="2">
+                <div style="display:flex; gap:12px; align-items:flex-start">
+                  <div style="flex:none; width:24px; height:24px; border-radius:999px; background:#A6C75F; color:#26401F; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center">{{ step.n }}</div>
+                  <div style="flex:1; font-size:13px; line-height:1.6; color:#34302A">{{ step.text }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="flex:none; border-top:1px solid #E7DDC6; background:#F3EDDD; padding:14px 22px; display:flex; align-items:center; gap:12px">
+          <div style="flex:1; font-size:11px; color:#7C715A">{{ modal.note }}</div>
+          <sc-if value="{{ modal.sourceUrl }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ modal.sourceUrl }}" target="_blank" rel="noopener" style="flex:none; font-size:9.5px; color:#A2977F; text-decoration:none; letter-spacing:0.04em">new tab &#8599;</a>
+          </sc-if>
+          <button type="button" onClick="{{ closeModal }}" style="flex:none; background:#34512C; color:#F3EDDD; border:none; font-family:inherit; font-size:13px; font-weight:600; padding:11px 20px; border-radius:999px; cursor:pointer" style-hover="background:#26401F">Back to workbook</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+// Seed content — paints instantly, then the live Google Sheet replaces it.
+const SEED = [
+  [1,1,"Pre-Reading","Choose Your Grade 7 Novel","Part 1 Lesson 1"],
+  [1,2,"Pre-Reading","Preview Predict and Revise","Part 1 Lesson 2"],
+  [1,3,"Pre-Reading","Ask Questions as You Read","Part 1 Lesson 3"],
+  [2,4,"Pre-Reading","Annotate and Track New Words","Part 2 Lesson 4"],
+  [2,5,"Beginning","Character Qualities Shape Events","Part 2 Lesson 5"],
+  [2,6,"Beginning","Setting Shapes the Story","Part 2 Lesson 6"],
+  [2,7,"Beginning","Foreshadowing and Suspense","Part 2 Lesson 7"],
+  [3,8,"Beginning","How a Scene Builds the Whole","Part 3 Lesson 8"],
+  [3,9,"Beginning","Monitor and Repair Understanding","Part 3 Lesson 9"],
+  [4,10,"Middle","Infer What Is Unsaid","Part 4 Lesson 10"],
+  [4,11,"Middle","Choose Evidence That Matters","Part 4 Lesson 11"],
+  [4,12,"Middle","Context Clues and Verification","Part 4 Lesson 12"],
+  [5,13,"Middle","Figures of Speech and Word Relationships","Part 5 Lesson 13"],
+  [5,14,"Middle","Connotation Mood Voice and Tone","Part 5 Lesson 14"],
+  [5,15,"Middle","Point of View and Literary Devices","Part 5 Lesson 15"],
+  [6,16,"Middle","The Turning Point","Part 6 Lesson 16"],
+  [6,17,"Middle","Key Details Create New Understanding","Part 6 Lesson 17"],
+  [6,18,"Middle","Theme Develops Across a Text","Part 6 Lesson 18"],
+  [7,19,"End","Objective Summary and Synthesis","Part 7 Lesson 19"],
+  [7,20,"End","Author Purpose and Message","Part 7 Lesson 20"],
+  [7,21,"End","Audience Structure and Craft","Part 7 Lesson 21"],
+  [8,22,"End","Respond Revise and Discuss","Part 8 Lesson 22"],
+  [8,23,"End","Literary Critique","Part 8 Lesson 23"],
+  [8,24,"End","Write an Evidence-Based Book Review","Part 8 Lesson 24"]
+];
+
+const PHOTO_COUNT = 23;
+function defaultPhoto(n) {
+  if (n === 24) return "assets/kids-reading.jpg";
+  return "assets/lessons/L" + (((n + 11) % PHOTO_COUNT) + 1) + ".jpg";
+}
+function fallbackPhoto(url) {
+  const m = url && url.match(/(L\d+)\.png$/);
+  return m ? "assets/lessons/" + m[1] + ".jpg" : null;
+}
+
+let LESSONS = SEED.map(function (s) {
+  return { part: s[0], no: s[1], section: s[2], title: s[3], assignLabel: s[4],
+    label: "Part " + s[0] + ", Lesson " + s[1], standards: "", learn: "", summary: "",
+    video: "", hasZpd: s[1] === 1, questions: [], photo: defaultPhoto(s[1]) };
+});
+
+const SNORKL_URL = "https://student.snorkl.app/fuf2eg";
+const FALLBACK_TEACHERS = [
+  { name: "Teacher 1", course: "7th Grade ELA", url: SNORKL_URL },
+  { name: "Teacher 2", course: "7th Grade ELA", url: SNORKL_URL },
+  { name: "Teacher 3", course: "7th Grade ELA", url: SNORKL_URL }
+];
+
+// Google Sheets "Publish to web → CSV" links. Empty string = use the local CSV file.
+const SHEETS = {
+  lessons: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSqwQHwunA4cRcmyPsZUHG629ZkCvItEvJ-VKovvABvxvifmjLHb7DYBkzhaM4tVYcBFxC7Bt4JCihE/pub?output=csv",
+  teachers: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXrrVDBvVXlWhO_ni8x6hh2Ix0jp-gOlLlN_vrdRfMdWLKpYWOzbAFtAk1zhhdJFRm4cO0kEL06dV8/pub?output=csv",
+  text: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS7_ssJKhQcAbVMFudC9743T5QBMWWuHHmQpDycJegNmEmJJyuin78GFoOA2H9LI1zqJ_AzA7_1Z0HP/pub?output=csv",
+  images: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7WZPV3-Y6ItMu6q91JfWmE9W-4aRSmPKyeSjU2AgoYXr7NcSSYti8wkX_rETdLzm9vDr6aXkeXhdg/pub?output=csv"
+};
+const FILES = { lessons: "lessons.csv", teachers: "teachers.csv", text: "page-text.csv", images: "images.csv" };
+
+const IMAGES = {
+  cover_photo: "assets/cover-students.jpg",
+  divider_pre: "assets/lessons/div-middle.jpg",
+  divider_beginning: "assets/lessons/div-end.jpg",
+  divider_middle: "assets/lessons/div-pre.jpg",
+  divider_end: "assets/lessons/div-beginning.jpg",
+  logo: "assets/thrive-academy-logo.png",
+  tree_mark: "assets/thrive-tree-mark.png",
+  mascot_pre: "assets/mascot/water.png",
+  mascot_beginning: "assets/mascot/laptop.png",
+  mascot_middle: "assets/mascot/reading.png",
+  mascot_end: "assets/mascot/wave.png",
+  mascot_finish: "assets/mascot/highfive.png",
+  branch_top: "assets/branch-h.png",
+  branch_bottom: "assets/branch-v.png"
+};
+const LESSON_PHOTOS = {};
+
+function applyImageCsv(csv) {
+  let n = 0;
+  parseCsv(csv).forEach(function (r) {
+    const k = (r.key || "").trim();
+    const p = (r.image_path || r.path || "").trim();
+    if (!k || !p) return;
+    const lm = k.match(/^lesson_(\d+)$/);
+    if (lm) { LESSON_PHOTOS[parseInt(lm[1], 10)] = p; n++; }
+    else if (IMAGES[k] !== undefined) { IMAGES[k] = p; n++; }
+  });
+  return n;
+}
+
+const TEXT = {
+  cover_eyebrow: "7th Grade English Language Arts",
+  cover_title: "Independent Novel Study",
+  cover_intro: "Choose a book at just the right level for you, then read it as your own adventure. Each lesson gives you a quick guide and a chance to show your thinking. Complete three lessons each week as you move through your novel.",
+  cover_button: "Start the workbook",
+  cover_provided_link: "Or have a novel chosen for you",
+  header_title: "MY NOVEL STUDY",
+  header_subtitle: "7th Grade English Language Arts",
+  page_badge: "My Novel Study",
+  page_grade: "7th Grade",
+  howto_title: "How This Workbook Works",
+  howto_step1_title: "Choose a novel within your ZPD",
+  howto_step1_body: "Use www.ARBookFinder.com to pick a novel you can read mostly on your own, with a few new words to stretch your knowledge.",
+  howto_step2_title: "View the lesson",
+  howto_step2_body: "Use the Go to Lesson button for a short introduction to the skill.",
+  howto_step3_title: "Read the mini-lesson",
+  howto_step3_body: "The short summary gives you the key idea you need before you apply the skill.",
+  howto_step4_title: "Complete today's assignment",
+  howto_step4_body: "Click the assignment button, then select your teacher's name and the correct assignment for the day. All assignments are labeled with Part and Lesson numbers to make it easy.",
+  howto_note: "There are three assignments (days) within each part (weeks). There are 8 parts total, and each part represents about one week of work. Complete 3 lessons each week to work through the sections of your novel \u2014 Pre-Reading, Beginning, Middle, and End.",
+  step1_heading: "Step 1: View the Lesson",
+  step2_heading: "Step 2: Read the Lesson Summary",
+  step3_heading: "Step 3: Complete Today's Assignment",
+  step3_body: "Click the button to go to your course and search for and select the assignment titled",
+  step3_button: "Click Here",
+  zpd_link: "Open www.ARBookFinder.com to find books in your ZPD",
+  respond_by: "draw, type, write, or speak",
+  footer_course: "7th Grade Independent Novel Study",
+  video_coming_soon: "Lesson video coming soon",
+  video_missing_note: "This lesson's video has not been added yet. Read the lesson summary and complete the assignment.",
+  divider_pre: "These assignments are meant to be completed before you start reading.",
+  divider_beginning: "The opening chapters. These lessons are meant for this stage of your reading.",
+  divider_middle: "The story builds. These lessons are meant for the middle stage of your reading.",
+  divider_end: "Falling action and resolution. These lessons are meant for the final stage of your reading.",
+  finish_title: "You Did It!",
+  finish_body: "You finished your novel study. You chose your own book, read it from cover to cover, and showed your thinking every step of the way. Take a moment to be proud, then go find your next great book.",
+  finish_button: "Find my next book",
+  popup_reminder_label: "You are on",
+  popup_teacher_prompt: "Choose your teacher",
+  popup_open_button: "Open my assignment",
+  popup_note: "Find the lesson that matches the label above. Your workbook opens on the next lesson tomorrow.",
+  popup_questions_label: "What you will answer"
+};
+
+function applyTextCsv(csv) {
+  let n = 0;
+  parseCsv(csv).forEach(function (r) {
+    const k = (r.key || "").trim();
+    if (k && TEXT[k] !== undefined && r.text) { TEXT[k] = r.text; n++; }
+  });
+  return n;
+}
+
+function fixEncoding(s) {
+  return (s || "")
+    .replace(/\u8DEF/g, "\u00B7")
+    .replace(/\u00E2\u20AC\u201D/g, "\u2014")
+    .replace(/\u00E2\u20AC\u2122/g, "\u2019");
+}
+
+function parseCsv(text) {
+  const rows = [];
+  let row = [], cell = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (c === '"') q = false;
+      else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ",") { row.push(cell); cell = ""; }
+    else if (c === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
+    else if (c !== "\r") cell += c;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  const clean = rows.filter(function (r) { return r.some(function (c) { return c.trim(); }); });
+  if (clean.length < 2) return [];
+  const head = clean[0].map(function (h) { return h.trim().toLowerCase().replace(/\s+/g, "_"); });
+  return clean.slice(1).map(function (r) {
+    const o = {};
+    head.forEach(function (h, n) { o[h] = fixEncoding((r[n] || "").trim()); });
+    return o;
+  });
+}
+
+// Column names in the 7th-grade sheet are long and contain smart quotes,
+// so columns are matched by fragment instead of exact key.
+function frag(r, s) {
+  const k = Object.keys(r).find(function (x) { return x.indexOf(s) >= 0; });
+  return k ? r[k] : "";
+}
+function standardsOf(a, b) {
+  return [a, b].filter(Boolean).join("; ").split(/\s*;\s*/).filter(Boolean).join(" \u00B7 ");
+}
+
+function applyLessonCsv(text) {
+  const rows = parseCsv(text);
+  if (!rows.length) return 0;
+  const wide = Object.keys(rows[0]).some(function (k) { return k.indexOf("lesson_title") >= 0 || k.indexOf("snorkl") >= 0; });
+  const next = [];
+  rows.forEach(function (r, i) {
+    let o;
+    if (wide) {
+      const title = frag(r, "lesson_title");
+      if (!title) return;
+      const no = parseInt(r.lesson, 10) || (i + 1);
+      const part = parseInt(r.part, 10) || 0;
+      const q = [frag(r, "snorkl_question_1"), frag(r, "snorkl_question_2")].filter(Boolean);
+      o = { part: part, no: no, section: r.section || "Pre-Reading", title: title,
+        label: part ? "Part " + part + ", Lesson " + no : "Lesson " + no,
+        assignLabel: frag(r, "step_3") || ("Part " + part + " Lesson " + no),
+        standards: standardsOf(r.ccss, r.teks),
+        learn: frag(r, "step_1_text"), summary: frag(r, "step_2_lesson_text"),
+        video: frag(r, "lesson_link"), hasZpd: no === 1, questions: q,
+        photo: (r.photo || "").trim() };
+    } else {
+      if (!(r.title || r.part_label || "").trim()) return;
+      const no = parseInt(r.lesson, 10) || (i + 1);
+      o = { part: 0, no: no, section: r.section || "Pre-Reading", title: r.title || "",
+        label: r.part_label || ("Lesson " + no), assignLabel: r.assignment_label || r.part_label || ("Lesson " + no),
+        standards: r.standards || "", learn: r.learn || "", summary: r.summary || "",
+        video: (r.video_url || "").trim(), hasZpd: /^(yes|true|1|x)$/i.test(r.has_zpd_link || "") || no === 1,
+        questions: [r.snorkl_question_1, r.snorkl_question_2].filter(Boolean), photo: (r.photo || "").trim() };
+    }
+    next.push(o);
+  });
+  if (!next.length) return 0;
+  LESSONS = next;
+  return LESSONS.length;
+}
+
+let TEACHERS = null;
+const TEACHER_KEY = "thrive-novel7-teacher";
+const ZPD_SLIDES = "https://docs.google.com/presentation/d/1YHOzQr6UYEz0Pz5FyheajKTRkvgG3W8YW_Cwyk97FEk/edit?usp=sharing";
+const PROVIDED_NOVEL_DOC = "https://docs.google.com/document/d/1HsalXkB2nueFSks1NdREQiDu9c-PqQL_XW4zsstxMmo/edit?usp=sharing";
+
+function styleTeachers(rows) {
+  return rows.map(function (r, n) {
+    const dark = n % 2 === 1;
+    return { name: r.name, course: r.course || "", url: r.url,
+      bg: dark ? "#2F4A26" : "#A6C75F", color: dark ? "#FFFFFF" : "#26401F" };
+  });
+}
+function parseTeacherCsv(text) {
+  const rows = parseCsv(text)
+    .filter(function (r) { return r.name && /^https?:/i.test(r.url || ""); })
+    .map(function (r) { return { name: r.name, course: r.course || "", url: r.url }; });
+  return rows.length ? rows : null;
+}
+TEACHERS = styleTeachers(FALLBACK_TEACHERS);
+
+function ytId(url) {
+  const m = url && url.match(/[?&]v=([\w-]+)/);
+  return m ? m[1] : null;
+}
+function toEmbed(url) {
+  if (!url) return null;
+  const yt = url.match(/[?&]v=([\w-]+)/);
+  if (yt) {
+    const t = url.match(/[?&]t=(\d+)/);
+    return "https://www.youtube.com/embed/" + yt[1] + "?rel=0&modestbranding=1&playsinline=1&autoplay=1" + (t ? "&start=" + t[1] : "");
+  }
+  const slides = url.match(/presentation\/d\/([\w-]+)/);
+  if (slides) return "https://docs.google.com/presentation/d/" + slides[1] + "/embed?start=false&loop=false";
+  const vid = url.match(/videos\/d\/([\w-]+)/);
+  if (vid) return "https://docs.google.com/videos/d/" + vid[1] + "/preview";
+  const doc = url.match(/document\/d\/([\w-]+)/);
+  if (doc) return "https://docs.google.com/document/d/" + doc[1] + "/preview";
+  return url;
+}
+
+const DIVIDER_KEYS = { "Pre-Reading": "divider_pre", "Beginning": "divider_beginning", "Middle": "divider_middle", "End": "divider_end" };
+
+function buildPages() {
+  const pages = [
+    { type: "cover", isCover: true, tocTitle: "Independent Novel Study", meta: "Cover" },
+    { type: "howto", isHowTo: true, tocTitle: "How This Workbook Works", meta: "Guide" }
+  ];
+  let section = null;
+  LESSONS.forEach(function (l) {
+    if (l.section !== section) {
+      section = l.section;
+      const key = DIVIDER_KEYS[section] || "divider_pre";
+      pages.push({ type: "divider", isDivider: true, eyebrow: "Section", title: section,
+        body: TEXT[key] || "", tocTitle: section, meta: "Section",
+        photo: IMAGES[key] || "", mascot: IMAGES["mascot_" + key.replace("divider_", "")] || "" });
+    }
+    pages.push({
+      type: "lesson", isLesson: true, label: l.label, assignLabel: l.assignLabel,
+      section: l.section, title: l.title, standards: l.standards, learn: l.learn,
+      summary: l.summary, hasZpdLink: !!l.hasZpd, questions: l.questions,
+      hasVideo: !!l.video, noVideo: !l.video, video: l.video,
+      tocTitle: l.title, meta: "L" + l.no,
+      lessonNo: l.no, photo: l.photo || LESSON_PHOTOS[l.no] || defaultPhoto(l.no)
+    });
+  });
+  pages.push({ type: "finish", isFinish: true, tocTitle: "You Did It!", meta: "Finish" });
+  return pages;
+}
+
+let PAGES = buildPages();
+const KEY = "thrive-novel7-flipbook-page";
+
+class Component extends DCLogic {
+  state = { i: 0, contentsOpen: false, modal: { open: false }, flip: null, scale: 1, teacher: null };
+
+  _fit = () => {
+    const el = this._stage;
+    if (!el) return;
+    const availH = el.clientHeight - 44;
+    const availW = el.clientWidth - 44 - 124;
+    if (availH <= 0 || availW <= 0) return;
+    const s = Math.max(0.3, Math.min(1, availH / 792, availW / 612));
+    if (Math.abs(s - this.state.scale) > 0.004) this.setState({ scale: s });
+  };
+
+  componentDidMount() {
+    try {
+      const saved = parseInt(localStorage.getItem(KEY), 10);
+      if (!isNaN(saved) && saved > 0 && saved < PAGES.length) this.setState({ i: saved });
+      const t = parseInt(localStorage.getItem(TEACHER_KEY), 10);
+      if (!isNaN(t) && t >= 0 && t < TEACHERS.length) this.setState({ teacher: t });
+    } catch (e) {}
+    this._key = (e) => {
+      if (this.state.modal.open || this.state.contentsOpen) {
+        if (e.key === "Escape") { this.setState({ modal: { open: false }, contentsOpen: false }); }
+        return;
+      }
+      if (e.key === "ArrowRight" || e.key === "PageDown") this.go(this.state.i + 1);
+      if (e.key === "ArrowLeft" || e.key === "PageUp") this.go(this.state.i - 1);
+    };
+    window.addEventListener("keydown", this._key);
+    const load = (url) => fetch(url, { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : null; }).catch(function () { return null; });
+    // Live sheet first; the local CSV is the offline fallback.
+    const loadPair = (which) => {
+      const primary = SHEETS[which];
+      return primary ? load(primary).then(function (t) { return t || load(FILES[which]); }) : load(FILES[which]);
+    };
+
+    loadPair("teachers").then((text) => {
+      const rows = text && parseTeacherCsv(text);
+      if (rows) { TEACHERS = styleTeachers(rows); this.forceUpdate(); }
+    });
+    loadPair("images").then((csv) => {
+      if (csv && applyImageCsv(csv)) { PAGES = buildPages(); this.forceUpdate(); }
+    });
+    loadPair("text").then((csv) => {
+      if (csv && applyTextCsv(csv)) { PAGES = buildPages(); this.forceUpdate(); }
+    });
+    loadPair("lessons").then((csv) => {
+      if (csv && applyLessonCsv(csv)) {
+        PAGES = buildPages();
+        if (this.state.i >= PAGES.length) this.setState({ i: PAGES.length - 1 });
+        this.forceUpdate();
+      }
+    });
+    this._fit();
+    window.addEventListener("resize", this._fit);
+  }
+  componentWillUnmount() { window.removeEventListener("keydown", this._key); window.removeEventListener("resize", this._fit); }
+
+  go(n, dir) {
+    const i = Math.max(0, Math.min(PAGES.length - 1, n));
+    if (i === this.state.i) return;
+    const forward = dir === undefined ? i > this.state.i : dir > 0;
+    try { localStorage.setItem(KEY, String(i)); } catch (e) {}
+    this.setState({ i: i, flip: forward ? "in-next" : "in-prev" });
+    const settle = () => { if (this.state.flip !== "rest") this.setState({ flip: "rest" }); };
+    requestAnimationFrame(() => requestAnimationFrame(settle));
+    clearTimeout(this._settleT);
+    this._settleT = setTimeout(settle, 90);
+  }
+
+  queueNextLesson() {
+    for (let n = this.state.i + 1; n < PAGES.length; n++) {
+      if (PAGES[n].isLesson) { try { localStorage.setItem(KEY, String(n)); } catch (e) {} return; }
+    }
+  }
+
+  pickTeacher(n) {
+    try { n === null ? localStorage.removeItem(TEACHER_KEY) : localStorage.setItem(TEACHER_KEY, String(n)); } catch (e) {}
+    this.setState({ teacher: n }, () => {
+      if (this.state.modal.open && this.state.modal.reminderLabel) this._reopenAssignment && this._reopenAssignment();
+    });
+  }
+
+  renderVals() {
+    const setSrc = function (url) {
+      return function (el) {
+        if (!el || !url) return;
+        if (el.getAttribute("src") !== url) el.setAttribute("src", url);
+        el.onerror = function () {
+          const alt = fallbackPhoto(url);
+          if (alt && el.getAttribute("src") !== alt) el.setAttribute("src", alt);
+        };
+      };
+    };
+    const i = this.state.i;
+    const page = PAGES[i];
+    const flip = this.state.flip;
+    const s = this.state.scale;
+    const rot = flip === "in-next" ? " rotateY(-74deg)" : flip === "in-prev" ? " rotateY(74deg)" : " rotateY(0deg)";
+    const mid = flip === "in-next" || flip === "in-prev";
+    const pageStyle = {
+      width: "612px", height: "792px", transformStyle: "preserve-3d", background: "#FFFFFF",
+      borderRadius: "6px", overflow: "hidden", position: "absolute", top: 0, left: 0,
+      transform: "scale(" + s + ")" + rot,
+      transformOrigin: "left top",
+      opacity: mid ? 0.55 : 1,
+      transition: mid ? "none" : "transform 480ms cubic-bezier(.22,.7,.2,1), opacity 340ms ease"
+    };
+    const bookStyle = {
+      flex: "none", position: "relative",
+      width: Math.round(612 * s) + "px", height: Math.round(792 * s) + "px",
+      perspective: Math.round(2400 * s) + "px",
+      filter: "drop-shadow(0 " + Math.round(26 * s) + "px " + Math.round(46 * s) + "px rgba(0,0,0,.42))"
+    };
+
+    this._reopenAssignment = null;
+    const modalFor = {
+      video: () => {
+        const url = page.video;
+        const embed = toEmbed(url);
+        const id = ytId(url);
+        return {
+          open: true, embedAspect: "16/9", isEmbed: !!embed && !id, isPoster: !!id, playing: false,
+          posterUrl: id ? "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg" : null,
+          embedUrl: embed, sourceUrl: url, isVideo: !embed,
+          eyebrow: page.label || "Mini-Lesson", title: page.title,
+          body: [{ text: page.learn }],
+          note: ""
+        };
+      },
+      slides: () => ({
+        open: true, embedAspect: "16/9", isEmbed: true, embedUrl: toEmbed(ZPD_SLIDES), sourceUrl: ZPD_SLIDES,
+        eyebrow: "Mini-Lesson", title: "Finding a book in your ZPD",
+        body: [{ text: "Learn how to choose a just-right book and why reading self-chosen texts helps you grow as a reader." }],
+        note: ""
+      }),
+      assignment: () => {
+        const saved = this.state.teacher;
+        const known = saved !== null && TEACHERS[saved];
+        const qs = (page.questions || []).map(function (q, n) { return { n: n + 1, text: q }; });
+        return {
+          open: true, eyebrow: "Today's assignment", title: "Novel Study Assignments",
+          reminderLabel: page.assignLabel, reminderTitle: page.title,
+          teacherPrompt: TEXT.popup_teacher_prompt,
+          teacherValue: known ? String(saved) : "",
+          teacherOptions: TEACHERS.map(function (t, n) {
+            return { value: String(n), name: t.course ? t.name + " \u2014 " + t.course : t.name };
+          }),
+          courseUrl: known ? TEACHERS[saved].url : "",
+          onOpen: () => this.queueNextLesson(),
+          courseName: known ? TEACHERS[saved].name : "",
+          openLabel: TEXT.popup_open_button,
+          hasSteps: qs.length > 0, steps: qs, stepsLabel: TEXT.popup_questions_label,
+          note: TEXT.popup_note
+        };
+      },
+      bookfinder: () => ({
+        open: true, embedAspect: "4/3", isEmbed: true, embedUrl: "https://www.arbookfinder.com/", eyebrow: "Find a book",
+        title: "ARBookFinder.com",
+        body: [{ text: "Search by title, author, or interest level to find books inside your Zone of Proximal Development (ZPD)." }],
+        note: ""
+      }),
+      provided: () => ({
+        open: true, embedAspect: "4/3", isEmbed: true, embedUrl: toEmbed(PROVIDED_NOVEL_DOC), sourceUrl: PROVIDED_NOVEL_DOC,
+        eyebrow: "Prefer a novel chosen for you?", title: "Provided novel option",
+        body: [{ text: "You do not have to pick your own book \u2014 read the novel provided here." }],
+        note: ""
+      })
+    };
+
+    this._reopenAssignment = () => this.setState({ modal: modalFor.assignment() });
+
+    const ticks = PAGES.map((p, n) => ({
+      aria: (n + 1) + ". " + p.tocTitle,
+      color: n === i ? "#F3EDDD" : p.type === "divider" ? "rgba(203,224,143,.75)" : "rgba(203,224,143,.3)",
+      go: () => this.go(n)
+    }));
+
+    const toc = PAGES.map((p, n) => ({
+      num: p.type === "lesson" ? p.meta : String(n + 1).padStart(2, "0"),
+      title: p.tocTitle, meta: p.type === "lesson" ? p.label : p.meta,
+      bg: n === i ? "#D8E6C9" : "transparent",
+      color: p.type === "divider" ? "#34512C" : "#34302A",
+      weight: p.type === "divider" || n === i ? "600" : "400",
+      go: () => { this.go(n); this.setState({ contentsOpen: false }); }
+    }));
+
+    return {
+      page: page, pageStyle: pageStyle, bookStyle: bookStyle, pageNumber: i + 1, t: TEXT,
+      imgRef: {
+        logo: setSrc(IMAGES.logo), tree_mark: setSrc(IMAGES.tree_mark),
+        cover_photo: setSrc(IMAGES.cover_photo), branch_top: setSrc(IMAGES.branch_top),
+        branch_bottom: setSrc(IMAGES.branch_bottom), mascot_finish: setSrc(IMAGES.mascot_finish)
+      },
+      photoRef: setSrc(page.photo), mascotRef: setSrc(page.mascot),
+      posterRef: setSrc(this.state.modal.posterUrl),
+      stageRef: (el) => { if (el && el !== this._stage) { this._stage = el; requestAnimationFrame(this._fit); setTimeout(this._fit, 60); } },
+      counter: "Page " + (i + 1) + " of " + PAGES.length + (page.section ? "  \u00B7  " + page.section : ""),
+      ticks: ticks, toc: toc,
+      contentsOpen: this.state.contentsOpen, modal: this.state.modal,
+      howToSteps: [1, 2, 3, 4].map(function (n) {
+        return { n: n, title: TEXT["howto_step" + n + "_title"], body: TEXT["howto_step" + n + "_body"] };
+      }),
+      goNext: () => this.go(this.state.i + 1, 1),
+      goPrev: () => this.go(this.state.i - 1, -1),
+      toggleContents: () => this.setState({ contentsOpen: !this.state.contentsOpen }),
+      closeContents: () => this.setState({ contentsOpen: false }),
+      openVideo: () => this.setState({ modal: modalFor.video() }),
+      openSlides: () => this.setState({ modal: page.lessonNo === 1 ? modalFor.slides() : modalFor.video() }),
+      openAssignment: () => this.setState({ modal: modalFor.assignment() }),
+      onTeacherChange: (ev) => {
+        const v = ev.target.value;
+        this.pickTeacher(v === "" ? null : parseInt(v, 10));
+      },
+      openBookFinder: () => this.setState({ modal: modalFor.bookfinder() }),
+      openProvidedNovel: () => this.setState({ modal: modalFor.provided() }),
+      playVideo: () => this.setState({ modal: Object.assign({}, this.state.modal, { isPoster: false, isEmbed: true, embedAspect: "16/9" }) }),
+      closeModal: () => this.setState({ modal: { open: false } }),
+      stop: (e) => e.stopPropagation()
+    };
+  }
+}
+</script>
+</body>
+</html>

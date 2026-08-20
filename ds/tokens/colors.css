@@ -1,0 +1,107 @@
+/* ============================================================
+   Thrive Communities — Color Tokens
+   Sampled from the live brand: deep forest green, soft lime
+   accent, warm cream/ivory surfaces, charcoal text. Earthy,
+   classical, natural.
+   ============================================================ */
+
+:root {
+  /* ---- Brand: Forest Green (primary / growth) ---- */
+  --green-50:  #EFF4E9;
+  --green-100: #D8E6C9;
+  --green-200: #B7D49E;
+  --green-300: #8FBC6E;
+  --green-400: #639C40;
+  --green-500: #45852B;  /* primary action */
+  --green-600: #336B1E;  /* headings & links on light */
+  --green-700: #34512C;  /* deep forest — dark surfaces, logo */
+  --green-800: #26401F;
+  --green-900: #182B14;
+
+  /* ---- Accent: Lime / Sage (emphasis, on-dark highlight) ---- */
+  --lime-300: #CBE08F;
+  --lime-400: #B7D277;
+  --lime-500: #A6C75F;  /* "Thrive" / "Community?" accent word */
+  --lime-600: #8FAE48;
+  --lime-700: #71893A;
+
+  /* ---- Neutrals: warm Sand / Ivory ---- */
+  --sand-0:   #FFFFFF;
+  --sand-50:  #FAF6EC;  /* page background (light ivory) */
+  --sand-100: #F3EDDD;  /* header / warm panel */
+  --sand-200: #E7DDC6;
+  --sand-300: #D4C8AC;
+  --sand-400: #A99C7E;
+  --sand-500: #7C715A;
+  --sand-600: #574E3D;
+  --sand-700: #3D3629;
+  --sand-800: #2A251C;
+  --sand-900: #1B1812;
+
+  /* ---- Raw semantic hues ---- */
+  --amber-400: #E0A52A;
+  --amber-500: #C98A1A;
+  --amber-600: #9C6A12;
+  --red-500:   #C0402F;
+  --red-600:   #9A3022;
+  --blue-500:  #3E7CB1;
+  --blue-600:  #2F6291;
+
+  /* ============================================================
+     SEMANTIC ALIASES — use these in components, not raw scales
+     ============================================================ */
+
+  /* Surfaces & backgrounds */
+  --color-bg:        var(--sand-50);
+  --color-bg-warm:   var(--sand-100);
+  --surface-card:    var(--sand-0);
+  --surface-soft:    var(--sand-100);
+  --surface-sunk:    var(--sand-200);
+  --surface-forest:  var(--green-700);   /* dark, photo-band sections */
+  --surface-forest-deep: var(--green-800);
+
+  /* Text */
+  --text-strong:     #211E18;
+  --text-body:       #34302A;
+  --text-muted:      var(--sand-500);
+  --text-faint:      var(--sand-400);
+  --text-heading:    var(--green-600);   /* page H1s are forest green */
+  --text-on-primary: #FFFFFF;
+  --text-on-forest:  #F3EDDD;
+  --text-on-forest-muted: color-mix(in srgb, #F3EDDD 72%, transparent);
+  --text-link:       var(--green-600);
+  --text-link-hover: var(--green-700);
+
+  /* Borders & dividers */
+  --border:        var(--sand-200);
+  --border-strong: var(--sand-300);
+  --border-onforest: color-mix(in srgb, #F3EDDD 26%, transparent);
+  --divider:       var(--sand-200);
+
+  /* Primary (Thrive Green) */
+  --primary:        var(--green-500);
+  --primary-hover:  var(--green-600);
+  --primary-active: var(--green-700);
+  --primary-soft:   var(--green-50);
+  --primary-soft-border: var(--green-200);
+  --on-primary:     #FFFFFF;
+
+  /* Accent (Lime) */
+  --accent:         var(--lime-500);
+  --accent-strong:  var(--lime-600);
+  --accent-soft:    #F1F6E4;
+  --on-accent:      var(--green-800);
+
+  /* Semantic states */
+  --success:       var(--green-500);
+  --success-soft:  var(--green-50);
+  --warning:       var(--amber-500);
+  --warning-soft:  #FBF1DC;
+  --danger:        var(--red-500);
+  --danger-soft:   #FAEAE7;
+  --info:          var(--blue-500);
+  --info-soft:     #EAF2FA;
+
+  /* Focus ring */
+  --ring: color-mix(in srgb, var(--green-500) 40%, transparent);
+}

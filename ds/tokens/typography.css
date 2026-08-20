@@ -1,0 +1,64 @@
+/* ============================================================
+   Thrive Communities — Typography Tokens
+   The brand sets nearly all text in a geometric humanist sans
+   (Poppins is the closest Google Fonts match — see readme).
+   The logo wordmark "THRIVE / COMMUNITIES" uses an engraved
+   classical serif (Cinzel as the closest match).
+   ============================================================ */
+
+:root {
+  /* ---- Families ---- */
+  --font-display: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body:    "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif:   "Cinzel", "Times New Roman", serif;  /* wordmark / engraved accents */
+  --font-mono:    "Spline Sans Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---- Weights ---- */
+  --fw-regular:  400;  /* @kind font */
+  --fw-medium:   500;  /* @kind font */
+  --fw-semibold: 600;  /* @kind font */
+  --fw-bold:     700;  /* @kind font */
+  --fw-extra:    800;  /* @kind font */
+
+  /* ---- Type scale (rem on 16px root) ---- */
+  --text-xs:   0.75rem;   /* 12 */
+  --text-sm:   0.875rem;  /* 14 */
+  --text-base: 1rem;      /* 16 */
+  --text-md:   1.125rem;  /* 18 */
+  --text-lg:   1.375rem;  /* 22 */
+  --text-xl:   1.75rem;   /* 28 */
+  --text-2xl:  2.25rem;   /* 36 */
+  --text-3xl:  3rem;      /* 48 */
+  --text-4xl:  3.75rem;   /* 60 */
+  --text-5xl:  5rem;      /* 80 */
+
+  /* ---- Line heights ---- */
+  --leading-tight:   1.05;
+  --leading-snug:    1.18;
+  --leading-normal:  1.45;
+  --leading-relaxed: 1.7;
+
+  /* ---- Letter spacing ---- */
+  --tracking-tight:   -0.01em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.04em;
+  --tracking-eyebrow: 0.12em;   /* uppercase eyebrows */
+  --tracking-wordmark: 0.22em;  /* engraved serif caps */
+
+  /* ---- Semantic roles ---- */
+  --display-family:   var(--font-display);
+  --display-weight:   var(--fw-bold);
+  --display-tracking: var(--tracking-tight);
+
+  --heading-family: var(--font-display);
+  --heading-weight: var(--fw-semibold);
+
+  --body-family:  var(--font-body);
+  --body-weight:  var(--fw-regular);
+  --body-size:    var(--text-base);
+  --body-leading: var(--leading-relaxed);
+
+  --eyebrow-family:   var(--font-display);
+  --eyebrow-weight:   var(--fw-semibold);
+  --eyebrow-tracking: var(--tracking-eyebrow);
+}

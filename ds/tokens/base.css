@@ -1,0 +1,73 @@
+/* ============================================================
+   Thrive Communities — Base reset & element defaults
+   Lightweight; sets the brand defaults on raw HTML elements so
+   specimen cards and kits inherit the right type & color.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: var(--body-size);
+  line-height: var(--body-leading);
+  color: var(--text-body);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--text-3xl); font-weight: var(--fw-extra); line-height: var(--leading-tight); }
+h2 { font-size: var(--text-2xl); font-weight: var(--fw-bold); }
+h3 { font-size: var(--text-xl); font-weight: var(--fw-bold); }
+h4 { font-size: var(--text-lg); font-weight: var(--fw-semibold); }
+
+p { margin: 0 0 1em; text-wrap: pretty; }
+
+a { color: var(--text-link); text-decoration: none; }
+a:hover { color: var(--text-link-hover); text-decoration: underline; text-underline-offset: 2px; }
+
+strong, b { font-weight: var(--fw-bold); color: var(--text-strong); }
+
+small { font-size: var(--text-sm); }
+
+code, pre, kbd { font-family: var(--font-mono); }
+
+::selection { background: var(--green-200); color: var(--green-900); }
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-sm);
+}
+
+/* ---- Helper roles (optional utility classes) ---- */
+.t-eyebrow {
+  font-family: var(--eyebrow-family);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  font-size: var(--text-sm);
+  color: var(--primary);
+}
+.t-accent {
+  font-family: var(--font-accent);
+  font-weight: 600;
+}
+.t-display {
+  font-family: var(--font-display);
+  font-weight: var(--fw-extra);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
