@@ -384,8 +384,10 @@ function defaultPhoto(n) {
   return "assets/lessons/L" + (((n + 11) % PHOTO_COUNT) + 1) + ".jpg";
 }
 function fallbackPhoto(url) {
-  const m = url && url.match(/(L\d+)\.png$/);
-  return m ? "assets/lessons/" + m[1] + ".jpg" : null;
+  if (!url) return null;
+  // Photos ship as .jpg in this repo; a sheet entry may still say .png (or framed/).
+  const alt = url.replace("assets/lessons/framed/", "assets/lessons/").replace(/\.png$/i, ".jpg");
+  return alt !== url ? alt : null;
 }
 
 let LESSONS = SEED.map(function (s) {
