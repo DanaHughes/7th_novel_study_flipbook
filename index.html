@@ -33,6 +33,32 @@
       <div style="font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:#8FAE48">{{ t.header_subtitle }}</div>
     </div>
     <div style="flex:1"></div>
+    <div style="position:relative; display:flex; align-items:center">
+      <button type="button" onClick="{{ toggleVoice }}" style="display:inline-flex; align-items:center; gap:9px; background:rgba(243,237,221,.08); color:#F3EDDD; border:1px solid rgba(203,224,143,.3); font-family:inherit; font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:999px; cursor:pointer" style-hover="background:rgba(243,237,221,.16)">
+        <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.6 2.4 5 5.3H2.6v5.4H5l3.6 2.9z" fill="none" stroke="#CBE08F" stroke-width="1.4" stroke-linejoin="round"></path><path d="M11 5.6a3.4 3.4 0 0 1 0 4.8" fill="none" stroke="#CBE08F" stroke-width="1.4" stroke-linecap="round"></path></svg>
+        Voice
+      </button>
+      <sc-if value="{{ voiceOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; top:48px; right:0; zIndex:60; width:288px; background:#FAF6EC; border:1px solid #E7DDC6; border-radius:14px; boxShadow:0 14px 34px rgba(0,0,0,.3); padding:16px; display:flex; flex-direction:column; gap:13px">
+          <div style="font-size:10.5px; font-weight:700; letter-spacing:0.11em; text-transform:uppercase; color:#7C715A">Read-aloud voice</div>
+          <select value="{{ voiceValue }}" onChange="{{ onVoiceChange }}" style="width:100%; font-family:inherit; font-size:13px; color:#34302A; background:#FFFFFF; border:1px solid #D8CDB4; border-radius:9px; padding:9px 10px">
+            <sc-for list="{{ voiceOptions }}" as="v" hint-placeholder-count="3">
+              <option value="{{ v.value }}">{{ v.name }}</option>
+            </sc-for>
+          </select>
+          <div style="display:flex; align-items:center; gap:10px">
+            <div style="flex:none; font-size:12px; color:#574E3D">Speed</div>
+            <input type="range" min="0.6" max="1.3" step="0.02" value="{{ rateValue }}" onChange="{{ onRateChange }}" onInput="{{ onRateChange }}" style="flex:1; accentColor:#336B1E">
+            <div style="flex:none; width:36px; text-align:right; font-size:12px; font-weight:600; color:#34302A">{{ rateLabel }}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:9px">
+            <button type="button" onClick="{{ testVoice }}" style="background:#2F4A26; color:#FFFFFF; border:none; font-family:inherit; font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:999px; cursor:pointer" style-hover="background:#26401F">Test voice</button>
+            <button type="button" onClick="{{ toggleVoice }}" style="background:none; border:none; font-family:inherit; font-size:12.5px; font-weight:600; color:#336B1E; cursor:pointer; padding:9px 4px">Done</button>
+          </div>
+          <div style="font-size:10.5px; line-height:1.5; color:#7C715A">Your choice is saved on this device.</div>
+        </div>
+      </sc-if>
+    </div>
     <button type="button" onClick="{{ toggleContents }}" style="display:inline-flex; align-items:center; gap:9px; background:rgba(243,237,221,.08); color:#F3EDDD; border:1px solid rgba(203,224,143,.3); font-family:inherit; font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:999px; cursor:pointer" style-hover="background:rgba(243,237,221,.16)">
       <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M1.5 3h11M1.5 7h11M1.5 11h7" stroke="#CBE08F" stroke-width="1.5" stroke-linecap="round"></path></svg>
       Contents
@@ -130,6 +156,9 @@
                   <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 2.2 L11.5 7 L3 11.8 Z" fill="none" stroke="#574E3D" stroke-width="1.4" stroke-linejoin="round"></path></svg>
                 </div>
                 <h2 style="margin:0; font-size:18px; font-weight:500; color:#3A4A32">{{ t.step1_heading }}</h2>
+                <button type="button" onClick="{{ speak1 }}" aria-label="Read this section aloud" title="Read aloud" style="flex:none; width:27px; height:27px; border-radius:999px; border:1px solid #D8CDB4; background:#FFFFFF; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0" style-hover="background:#EFF4E9">
+                  <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.6 2.4 5 5.3H2.6v5.4H5l3.6 2.9z" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linejoin="round"></path><path d="M11 5.6a3.4 3.4 0 0 1 0 4.8" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linecap="round"></path><path d="M12.9 3.6a6 6 0 0 1 0 8.8" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linecap="round"></path></svg>
+                </button>
               </div>
               <div style="background:#FFFFFF; border-radius:14px; box-shadow:0 1px 3px rgba(52,81,44,.08); padding:13px 18px; display:flex; gap:16px; align-items:center">
                 <div style="flex:none; width:56px; height:56px; border-radius:999px; background:#EFF4E9; display:flex; align-items:center; justify-content:center">
@@ -159,6 +188,9 @@
                   <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.2h4.4c.9 0 1.6.6 1.6 1.4v8.2c0-.8-.7-1.4-1.6-1.4H2zM14 3.2H9.6c-.9 0-1.6.6-1.6 1.4v8.2c0-.8.7-1.4 1.6-1.4H14z" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linejoin="round"></path></svg>
                 </div>
                 <h2 style="margin:0; font-size:18px; font-weight:500; color:#3A4A32">{{ t.step2_heading }}</h2>
+                <button type="button" onClick="{{ speak2 }}" aria-label="Read this section aloud" title="Read aloud" style="flex:none; width:27px; height:27px; border-radius:999px; border:1px solid #D8CDB4; background:#FFFFFF; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0" style-hover="background:#EFF4E9">
+                  <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.6 2.4 5 5.3H2.6v5.4H5l3.6 2.9z" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linejoin="round"></path><path d="M11 5.6a3.4 3.4 0 0 1 0 4.8" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linecap="round"></path><path d="M12.9 3.6a6 6 0 0 1 0 8.8" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linecap="round"></path></svg>
+                </button>
               </div>
               <div style="background:#FCFAF4; border-radius:14px; box-shadow:0 1px 3px rgba(52,81,44,.08); padding:14px 18px; display:flex; flex-direction:column; gap:7px">
                 <div style="display:flex; gap:11px; align-items:flex-start">
@@ -167,6 +199,9 @@
                 </div>
                 <sc-if value="{{ page.hasZpdLink }}" hint-placeholder-val="{{ false }}">
                   <button type="button" onClick="{{ openBookFinder }}" style="align-self:flex-start; background:none; border:none; padding:0; font-family:inherit; font-size:12.5px; font-weight:600; color:#336B1E; text-decoration:underline; text-underline-offset:2px; cursor:pointer">{{ t.zpd_link }}</button>
+                </sc-if>
+                <sc-if value="{{ page.hasSlides }}" hint-placeholder-val="{{ false }}">
+                  <button type="button" onClick="{{ openLessonSlides }}" style="align-self:flex-start; margin-top:5px; display:inline-flex; align-items:center; gap:9px; background:#2F4A26; color:#FFFFFF; border:none; font-family:inherit; font-size:14px; font-weight:500; padding:11px 22px; border-radius:999px; cursor:pointer; white-space:nowrap" style-hover="background:#26401F">{{ t.step2_button }} <span style="font-size:13px">&#8594;</span></button>
                 </sc-if>
               </div>
             </div>
@@ -177,6 +212,9 @@
                   <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M11 2.4l2.6 2.6-8 8H3v-2.6z" fill="none" stroke="#574E3D" stroke-width="1.3" stroke-linejoin="round"></path></svg>
                 </div>
                 <h2 style="margin:0; font-size:18px; font-weight:500; color:#3A4A32">{{ t.step3_heading }}</h2>
+                <button type="button" onClick="{{ speak3 }}" aria-label="Read this section aloud" title="Read aloud" style="flex:none; width:27px; height:27px; border-radius:999px; border:1px solid #D8CDB4; background:#FFFFFF; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0" style-hover="background:#EFF4E9">
+                  <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.6 2.4 5 5.3H2.6v5.4H5l3.6 2.9z" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linejoin="round"></path><path d="M11 5.6a3.4 3.4 0 0 1 0 4.8" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linecap="round"></path><path d="M12.9 3.6a6 6 0 0 1 0 8.8" fill="none" stroke="#336B1E" stroke-width="1.2" stroke-linecap="round"></path></svg>
+                </button>
               </div>
               <div style="background:#FFFFFF; border-radius:14px; box-shadow:0 1px 3px rgba(52,81,44,.08); padding:13px 18px; display:flex; gap:16px; align-items:center">
                 <div style="flex:none; width:56px; height:56px; border-radius:999px; background:#EFF4E9; display:flex; align-items:center; justify-content:center">
@@ -399,7 +437,7 @@ function fallbackPhoto(url) {
 let LESSONS = SEED.map(function (s) {
   return { part: s[0], no: s[1], section: s[2], title: s[3], assignLabel: s[4],
     label: "Part " + s[0] + ", Lesson " + s[1], standards: "", learn: "", summary: "",
-    video: "", hasZpd: s[1] === 1, questions: [], photo: defaultPhoto(s[1]) };
+    video: "", slides: "", hasZpd: s[1] === 1, questions: [], photo: defaultPhoto(s[1]) };
 });
 
 const SNORKL_URL = "https://student.snorkl.app/fuf2eg";
@@ -469,7 +507,8 @@ const TEXT = {
   howto_step4_title: "Complete today's assignment",
   howto_step4_body: "Click the assignment button, then select your teacher's name and the correct assignment for the day. All assignments are labeled with Part and Lesson numbers to make it easy.",
   howto_note: "There are three assignments (days) within each part (weeks). There are 8 parts total, and each part represents about one week of work. Complete 3 lessons each week to work through the sections of your novel \u2014 Pre-Reading, Beginning, Middle, and End.",
-  step1_heading: "Step 1: View the Lesson",
+  step1_heading: "Step 1: Introduction to the Concept",
+  step2_button: "Click to Continue Your Lesson",
   step2_heading: "Step 2: Read the Lesson Summary",
   step3_heading: "Step 3: Complete Today's Assignment",
   step3_body: "Click the button to go to your course and search for and select the assignment titled",
@@ -562,7 +601,7 @@ function applyLessonCsv(text) {
         assignLabel: frag(r, "step_3") || ("Part " + part + " Lesson " + no),
         standards: standardsOf(r.ccss, r.teks),
         learn: frag(r, "step_1_text"), summary: frag(r, "step_2_lesson_text"),
-        video: frag(r, "lesson_link"), hasZpd: no === 1, questions: q,
+        video: frag(r, "lesson_link"), slides: frag(r, "slides_link"), hasZpd: no === 1, questions: q,
         photo: (r.photo || "").trim() };
     } else {
       if (!(r.title || r.part_label || "").trim()) return;
@@ -570,7 +609,7 @@ function applyLessonCsv(text) {
       o = { part: 0, no: no, section: r.section || "Pre-Reading", title: r.title || "",
         label: r.part_label || ("Lesson " + no), assignLabel: r.assignment_label || r.part_label || ("Lesson " + no),
         standards: r.standards || "", learn: r.learn || "", summary: r.summary || "",
-        video: (r.video_url || "").trim(), hasZpd: /^(yes|true|1|x)$/i.test(r.has_zpd_link || "") || no === 1,
+        video: (r.video_url || "").trim(), slides: (r.slides_url || "").trim(), hasZpd: /^(yes|true|1|x)$/i.test(r.has_zpd_link || "") || no === 1,
         questions: [r.snorkl_question_1, r.snorkl_question_2].filter(Boolean), photo: (r.photo || "").trim() };
     }
     next.push(o);
@@ -601,18 +640,55 @@ function parseTeacherCsv(text) {
 TEACHERS = styleTeachers(FALLBACK_TEACHERS);
 
 function ytId(url) {
-  const m = url && url.match(/[?&]v=([\w-]+)/);
+  if (!url) return null;
+  const q = url.match(/[?&]v=([\w-]{6,})/);
+  if (q) return q[1];
+  if (!/youtu/i.test(url)) return null;
+  const m = url.match(/(?:youtu\.be\/|\/shorts\/|\/embed\/|\/live\/)([\w-]{6,})/);
   return m ? m[1] : null;
 }
+function voiceList() {
+  const synth = window.speechSynthesis;
+  const out = [{ value: "", name: "Best available on this device" }];
+  if (!synth) return out;
+  synth.getVoices()
+    .filter(function (v) { return /^en(-|_|$)/i.test(v.lang || ""); })
+    .forEach(function (v) { out.push({ value: v.name, name: v.name + " \u00B7 " + v.lang }); });
+  return out;
+}
+
+const VOICE_KEY = "thrive-novel-voice";
+const RATE_KEY = "thrive-novel-rate";
+
+function pickVoice() {
+  const synth = window.speechSynthesis;
+  if (!synth) return null;
+  const all = synth.getVoices().filter(function (v) { return /^en(-|_|$)/i.test(v.lang || ""); });
+  if (!all.length) return null;
+  const ranked = [
+    /google (us|uk) english/i, /natural/i, /aria|jenny|guy|sonia/i,
+    /samantha|ava|allison/i, /google/i
+  ];
+  for (let i = 0; i < ranked.length; i++) {
+    const hit = all.find(function (v) { return ranked[i].test(v.name || ""); });
+    if (hit) return hit;
+  }
+  return all.find(function (v) { return v.default; }) || all[0];
+}
+
 function toEmbed(url) {
   if (!url) return null;
-  const yt = url.match(/[?&]v=([\w-]+)/);
+  const yt = ytId(url);
   if (yt) {
-    const t = url.match(/[?&]t=(\d+)/);
-    return "https://www.youtube.com/embed/" + yt[1] + "?rel=0&modestbranding=1&playsinline=1&autoplay=1" + (t ? "&start=" + t[1] : "");
+    const t = url.match(/[?&](?:t|start)=(\d+)/);
+    return "https://www.youtube-nocookie.com/embed/" + yt + "?rel=0&modestbranding=1&playsinline=1&autoplay=1" + (t ? "&start=" + t[1] : "");
   }
+  const pubSlides = url.match(/presentation\/d\/e\/([\w-]+)/);
+  if (pubSlides) return "https://docs.google.com/presentation/d/e/" + pubSlides[1] + "/embed?start=false&loop=false&delayms=60000";
   const slides = url.match(/presentation\/d\/([\w-]+)/);
   if (slides) return "https://docs.google.com/presentation/d/" + slides[1] + "/embed?start=false&loop=false";
+  const pubDoc = url.match(/document\/d\/e\/([\w-]+)/);
+  if (pubDoc) return "https://docs.google.com/document/d/e/" + pubDoc[1] + "/pub?embedded=true";
   const vid = url.match(/videos\/d\/([\w-]+)/);
   if (vid) return "https://docs.google.com/videos/d/" + vid[1] + "/preview";
   const doc = url.match(/document\/d\/([\w-]+)/);
@@ -641,6 +717,7 @@ function buildPages() {
       section: l.section, title: l.title, standards: l.standards, learn: l.learn,
       summary: l.summary, hasZpdLink: !!l.hasZpd, questions: l.questions,
       hasVideo: !!l.video, noVideo: !l.video, video: l.video,
+      hasSlides: !!l.slides, slidesUrl: l.slides || "",
       tocTitle: l.title, meta: "L" + l.no,
       lessonNo: l.no, photo: l.photo || LESSON_PHOTOS[l.no] || defaultPhoto(l.no)
     });
@@ -653,7 +730,8 @@ let PAGES = buildPages();
 const KEY = "thrive-novel7-flipbook-page";
 
 class Component extends DCLogic {
-  state = { i: 0, contentsOpen: false, modal: { open: false }, flip: null, scale: 1, teacher: null };
+  state = { i: 0, contentsOpen: false, modal: { open: false }, flip: null, scale: 1, teacher: null,
+    voiceOpen: false, voiceName: null, rate: 0.94 };
 
   _fit = () => {
     const el = this._stage;
@@ -666,6 +744,16 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
+    try {
+      const vn = localStorage.getItem(VOICE_KEY);
+      const vr = parseFloat(localStorage.getItem(RATE_KEY));
+      if (vn || !isNaN(vr)) this.setState({ voiceName: vn || null, rate: !isNaN(vr) ? vr : 0.94 });
+    } catch (e) {}
+    if (window.speechSynthesis) {
+      this._voices = () => this.forceUpdate();
+      window.speechSynthesis.addEventListener("voiceschanged", this._voices);
+      window.speechSynthesis.getVoices();
+    }
     try {
       const saved = parseInt(localStorage.getItem(KEY), 10);
       if (!isNaN(saved) && saved > 0 && saved < PAGES.length) this.setState({ i: saved });
@@ -710,7 +798,34 @@ class Component extends DCLogic {
   }
   componentWillUnmount() { window.removeEventListener("keydown", this._key); window.removeEventListener("resize", this._fit); }
 
+  chosenVoice() {
+    const synth = window.speechSynthesis;
+    if (!synth) return null;
+    const want = this.state.voiceName;
+    if (want) {
+      const hit = synth.getVoices().find(function (v) { return v.name === want; });
+      if (hit) return hit;
+    }
+    return pickVoice();
+  }
+
+  say(parts, force) {
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+    const text = parts.filter(Boolean).join(". ").replace(/\.\s*\./g, ".");
+    if (!force && synth.speaking && this._saying === text) { synth.cancel(); this._saying = null; return; }
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const v = this.chosenVoice();
+    if (v) { u.voice = v; if (v.lang) u.lang = v.lang; }
+    u.rate = this.state.rate || 0.94;
+    u.onend = () => { this._saying = null; };
+    this._saying = text;
+    synth.speak(u);
+  }
+
   go(n, dir) {
+    if (window.speechSynthesis) { window.speechSynthesis.cancel(); this._saying = null; }
     const i = Math.max(0, Math.min(PAGES.length - 1, n));
     if (i === this.state.i) return;
     const forward = dir === undefined ? i > this.state.i : dir > 0;
@@ -782,6 +897,11 @@ class Component extends DCLogic {
           note: ""
         };
       },
+      lessonSlides: () => ({
+        open: true, embedAspect: "16/9", isEmbed: true, embedUrl: toEmbed(page.slidesUrl), sourceUrl: page.slidesUrl,
+        eyebrow: page.label || "Lesson", title: page.title,
+        body: [{ text: page.summary }], note: ""
+      }),
       slides: () => ({
         open: true, embedAspect: "16/9", isEmbed: true, embedUrl: toEmbed(ZPD_SLIDES), sourceUrl: ZPD_SLIDES,
         eyebrow: "Mini-Lesson", title: "Finding a book in your ZPD",
@@ -855,12 +975,33 @@ class Component extends DCLogic {
       howToSteps: [1, 2, 3, 4].map(function (n) {
         return { n: n, title: TEXT["howto_step" + n + "_title"], body: TEXT["howto_step" + n + "_body"] };
       }),
+      voiceOpen: this.state.voiceOpen,
+      voiceValue: this.state.voiceName || "",
+      rateValue: this.state.rate,
+      rateLabel: (Math.round(this.state.rate * 100) / 100).toFixed(2) + "x",
+      voiceOptions: voiceList(),
+      toggleVoice: () => this.setState({ voiceOpen: !this.state.voiceOpen }),
+      onVoiceChange: (ev) => {
+        const v = ev.target.value || null;
+        this.setState({ voiceName: v });
+        try { v ? localStorage.setItem(VOICE_KEY, v) : localStorage.removeItem(VOICE_KEY); } catch (e) {}
+      },
+      onRateChange: (ev) => {
+        const r = parseFloat(ev.target.value) || 0.94;
+        this.setState({ rate: r });
+        try { localStorage.setItem(RATE_KEY, String(r)); } catch (e) {}
+      },
+      testVoice: () => this.say(["This is how the read aloud voice will sound while you work through your novel study."], true),
+      speak1: () => this.say([page.label, page.title, TEXT.step1_heading, page.learn]),
+      speak2: () => this.say([TEXT.step2_heading, page.summary]),
+      speak3: () => this.say([TEXT.step3_heading, TEXT.step3_body, page.assignLabel || page.label]),
       goNext: () => this.go(this.state.i + 1, 1),
       goPrev: () => this.go(this.state.i - 1, -1),
       toggleContents: () => this.setState({ contentsOpen: !this.state.contentsOpen }),
       closeContents: () => this.setState({ contentsOpen: false }),
       openVideo: () => this.setState({ modal: modalFor.video() }),
-      openSlides: () => this.setState({ modal: page.lessonNo === 1 ? modalFor.slides() : modalFor.video() }),
+      openSlides: () => this.setState({ modal: modalFor.video() }),
+      openLessonSlides: () => this.setState({ modal: modalFor.lessonSlides() }),
       openAssignment: () => this.setState({ modal: modalFor.assignment() }),
       onTeacherChange: (ev) => {
         const v = ev.target.value;
